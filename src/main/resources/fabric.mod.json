@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "featuredservers",
+  "version": "${version}",
+  "name": "Featured Servers",
+  "description": "Add a server to the server list on load, stop shipping a server.dat!",
+  "authors": [
+    "Jake_Evans",
+    "Minemobs"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/featured-servers/",
+    "sources": "https://github.com/Jake-E/FeaturedServers/",
+    "issues": "https://github.com/Jake-E/FeaturedServers/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.alwa.featuredservers.FeaturedServers"
+    ]
+  },
+  "mixins": [
+    "featuredservers.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  }
+}

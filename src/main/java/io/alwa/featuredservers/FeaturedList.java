@@ -3,8 +3,6 @@ package io.alwa.featuredservers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
@@ -12,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
 public class FeaturedList {
 
     public static final Map<String, FeaturedServerData> servers = new HashMap<>();
@@ -35,7 +32,7 @@ public class FeaturedList {
         }
     }
 
-    public static Boolean inList(ServerData server, ServerList list) {
+    public static boolean inList(ServerData server, ServerList list) {
         return list != null && toList(list).stream().anyMatch(serverData -> serverData.name != null && serverData.ip != null
                 && serverData.name.equalsIgnoreCase(server.name) && serverData.ip.equalsIgnoreCase(server.ip));
     }

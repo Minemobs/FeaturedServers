@@ -23,9 +23,9 @@ public abstract class MixinServerSelectionList {
         ServerSelectionList.Entry serverselectionlist$entry = this.serverSelectionList.getSelected();
         if (serverselectionlist$entry != null && !(serverselectionlist$entry instanceof ServerSelectionList.LANHeader)) {
             this.selectButton.active = true;
-            if (serverselectionlist$entry instanceof ServerSelectionList.OnlineServerEntry) {
-                if (FeaturedList.servers.containsKey(((ServerSelectionList.OnlineServerEntry) serverselectionlist$entry).getServerData().ip)) {
-                    boolean active = FeaturedList.servers.get(((ServerSelectionList.OnlineServerEntry) serverselectionlist$entry).getServerData().ip).disableButtons;
+            if (serverselectionlist$entry instanceof ServerSelectionList.OnlineServerEntry entry) {
+                if (FeaturedList.servers.containsKey((entry).getServerData().ip)) {
+                    boolean active = FeaturedList.servers.get((entry).getServerData().ip).disableButtons;
                     this.editButton.active = !active;
                     this.deleteButton.active = !active;
                     return;

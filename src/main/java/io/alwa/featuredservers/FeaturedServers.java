@@ -2,11 +2,8 @@ package io.alwa.featuredservers;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.loader.impl.FabricLoaderImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,22 +12,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-@Mod("featuredservers")
-public class FeaturedServers {
+public class FeaturedServers implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
-    private static String FMLConfigFolder;
+    private static File FMLConfigFolder;
 
-    public FeaturedServers() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigLoad);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener((FMLClientSetupEvent event) -> {
-            try {
-                doClientStuff(event);
-            } catch (IOException ignored) {}
-        });
-
+    @Override
+    public void onInitializeClient() {
+        FMLConfigFolder = FabricLoaderImpl.INSTANCE.getConfigDir().toFile().getParentFile();
+        try {
+            doClientStuff();
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event) throws IOException {
+    private void doClientStuff() throws IOException {
         File configFolder = new File(FMLConfigFolder, "FeaturedServers");
         if (!configFolder.exists()) configFolder.mkdirs();
 
@@ -62,10 +58,6 @@ public class FeaturedServers {
         JsonReader reader = new JsonReader(serversFile);
         ServerDataHelper[] featuredList = gson.fromJson(reader, ServerDataHelper[].class);
         new FeaturedList().doFeaturedListStuff(featuredList);
-    }
-
-    private void onConfigLoad(ModConfigEvent.Loading event) {
-        FMLConfigFolder = event.getConfig().getFullPath().getParent().toString();
     }
 
     public static class ServerDataHelper {

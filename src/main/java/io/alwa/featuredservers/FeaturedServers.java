@@ -18,7 +18,7 @@ public class FeaturedServers implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        FMLConfigFolder = FabricLoaderImpl.INSTANCE.getConfigDir().toFile().getParentFile();
+        FMLConfigFolder = FabricLoaderImpl.INSTANCE.getConfigDir().toFile();
         try {
             doClientStuff();
         } catch (IOException e) {
@@ -27,10 +27,7 @@ public class FeaturedServers implements ClientModInitializer {
     }
 
     private void doClientStuff() throws IOException {
-        File configFolder = new File(FMLConfigFolder, "FeaturedServers");
-        if (!configFolder.exists()) configFolder.mkdirs();
-
-        File featuredServerList = new File(configFolder, "featuredservers.json");
+        File featuredServerList = new File(FMLConfigFolder, "featuredservers.json");
         if (!featuredServerList.exists()) {
             featuredServerList.createNewFile();
             FileWriter writer = new FileWriter(featuredServerList);

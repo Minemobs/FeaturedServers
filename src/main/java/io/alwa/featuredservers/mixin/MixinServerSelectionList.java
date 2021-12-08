@@ -1,37 +1,37 @@
 package io.alwa.featuredservers.mixin;
 
 import io.alwa.featuredservers.FeaturedList;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
-import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(JoinMultiplayerScreen.class)
+@Mixin(MultiplayerScreen.class)
 public abstract class MixinServerSelectionList {
 
-    @Shadow protected ServerSelectionList serverSelectionList;
-    @Shadow private Button selectButton, deleteButton, editButton;
+    @Shadow protected MultiplayerServerListWidget serverListWidget;
+    @Shadow private ButtonWidget buttonJoin, buttonDelete, buttonEdit;
 
     @SuppressWarnings("OverwriteAuthorRequired")
     @Overwrite
-    protected void onSelectedChange() {
-        this.selectButton.active = false;
-        this.editButton.active = false;
-        this.deleteButton.active = false;
-        ServerSelectionList.Entry serverselectionlist$entry = this.serverSelectionList.getSelected();
-        if (serverselectionlist$entry != null && !(serverselectionlist$entry instanceof ServerSelectionList.LANHeader)) {
-            this.selectButton.active = true;
-            if (serverselectionlist$entry instanceof ServerSelectionList.OnlineServerEntry entry) {
-                if (FeaturedList.servers.containsKey((entry).getServerData().ip)) {
-                    boolean active = FeaturedList.servers.get((entry).getServerData().ip).disableButtons;
-                    this.editButton.active = !active;
-                    this.deleteButton.active = !active;
+    protected void updateButtonActivationStates() {
+        this.buttonJoin.active = false;
+        this.buttonEdit.active = false;
+        this.buttonDelete.active = false;
+        MultiplayerServerListWidget.Entry serverEntry = this.serverListWidget.getSelectedOrNull();
+        if (serverEntry != null && !(serverEntry instanceof MultiplayerServerListWidget.LanServerEntry)) {
+            this.buttonJoin.active = true;
+            if (serverEntry instanceof MultiplayerServerListWidget.ServerEntry entry) {
+                if (FeaturedList.servers.containsKey((entry).getServer().address)) {
+                    boolean active = FeaturedList.servers.get((entry).getServer().address).disableButtons;
+                    this.buttonEdit.active = !active;
+                    this.buttonDelete.active = !active;
                     return;
                 }
-                this.editButton.active = true;
-                this.deleteButton.active = true;
+                this.buttonEdit.active = true;
+                this.buttonDelete.active = true;
             }
         }
     }

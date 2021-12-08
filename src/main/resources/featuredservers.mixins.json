@@ -6,7 +6,8 @@
   "refmap": "minemobstemplate.refmap.json",
   "mixins": [],
   "client": [
-    "MixinServerSelectionList"
+    "MixinServerSelectionList",
+    "ServerEntryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

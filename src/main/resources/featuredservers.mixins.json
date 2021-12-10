@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "io.alwa.featuredservers.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "minemobstemplate.refmap.json",
+  "refmap": "featuredservers.refmap.json",
   "mixins": [],
   "client": [
     "MixinServerSelectionList",

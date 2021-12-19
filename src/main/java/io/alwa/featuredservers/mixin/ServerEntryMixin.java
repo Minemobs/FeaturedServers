@@ -20,7 +20,7 @@ public abstract class ServerEntryMixin {
     @Shadow @Final private ServerInfo server;
 
     @Inject(method = "render", at = @At("TAIL"))
-    public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
+    public void renderStars(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
         if(!FeaturedList.servers.containsKey(server.address)) return;
         RenderSystem.setShaderTexture(0, new Identifier("featuredservers", "textures/gui/star.png"));
         DrawableHelper.drawTexture(matrices, x - 16, y, 0, 0, 16, 16, 16, 16);

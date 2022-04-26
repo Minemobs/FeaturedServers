@@ -33,18 +33,7 @@ public class FeaturedServers implements ClientModInitializer {
             FileWriter writer = new FileWriter(featuredServerList);
             writer.write("""
                     [
-                      {
-                        "serverName": "Featured Server",
-                        "serverIP": "127.0.0.1",
-                        "forceResourcePack": "true",
-                        "disableButtons": "true"
-                      },
-                      {
-                        "serverName": "Another Server!",
-                        "serverIP": "192.168.1.1",
-                        "forceResourcePack": "false",
-                        "disableButtons": "false"
-                      }
+                      
                     ]""");
             writer.close();
         }

@@ -24,7 +24,7 @@ public class FeaturedList {
                     FeaturedServers.LOGGER.log(Level.INFO, "Featured server already in server list");
                 } else {
                     FeaturedServers.LOGGER.log(Level.INFO, "Adding featured server");
-                    serverList.add(server);
+                    serverList.add(server, false);
                     serverList.saveFile();
                 }
                 servers.put(server.address, server);

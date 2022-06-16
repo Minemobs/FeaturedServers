@@ -1,5 +1,6 @@
 package io.alwa.featuredservers;
 
+import io.alwa.featuredservers.mixin.ServerListAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
@@ -12,23 +13,23 @@ import java.util.Map;
 
 public class FeaturedList {
 
-    public static final Map<String, FeaturedServerData> servers = new HashMap<>();
+    private static final Map<String, FeaturedServerData> servers = new HashMap<>();
 
     public void doFeaturedListStuff(FeaturedServers.ServerDataHelper[] featuredList) {
-        if (featuredList != null) {
-            ServerList serverList = new ServerList(MinecraftClient.getInstance());
-            for (FeaturedServers.ServerDataHelper serverhelp : featuredList) {
-                FeaturedServerData server = new FeaturedServerData(serverhelp.serverName, serverhelp.serverIP, false, serverhelp.disableButtons);
-                if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourcePackPolicy(ServerInfo.ResourcePackPolicy.ENABLED);
-                if (inList(server, serverList)) {
-                    FeaturedServers.LOGGER.log(Level.INFO, "Featured server already in server list");
-                } else {
-                    FeaturedServers.LOGGER.log(Level.INFO, "Adding featured server");
-                    serverList.add(server, false);
-                    serverList.saveFile();
-                }
-                servers.put(server.address, server);
+        if (featuredList == null) return;
+        ServerList serverList = new ServerList(MinecraftClient.getInstance());
+        int i = 0;
+        for (FeaturedServers.ServerDataHelper serverHelp : featuredList) {
+            FeaturedServerData server = new FeaturedServerData(serverHelp.getServerName(), serverHelp.getServerIP(), false, serverHelp.doesDisableButtons());
+            if(serverHelp.doesForceResourcePack() != null && serverHelp.doesForceResourcePack()) server.setResourcePackPolicy(ServerInfo.ResourcePackPolicy.ENABLED);
+            if (inList(server, serverList)) {
+                FeaturedServers.LOGGER.log(Level.INFO, "Featured server already in server list");
+            } else {
+                FeaturedServers.LOGGER.log(Level.INFO, "Adding featured server");
+                ((ServerListAccessor) serverList).getServers().add(i++, server);
+                serverList.saveFile();
             }
+            servers.put(server.address, server);
         }
     }
 
@@ -45,6 +46,14 @@ public class FeaturedList {
         return data;
     }
 
+    public static boolean containsKey(String ip) {
+        return servers.containsKey(ip);
+    }
+
+    public static FeaturedServerData get(String ip) {
+        return servers.get(ip);
+    }
+
     public static class FeaturedServerData extends ServerInfo {
 
         public final boolean disableButtons;
@@ -54,5 +63,4 @@ public class FeaturedList {
             this.disableButtons = disableButtons != null && disableButtons;
         }
     }
-
 }

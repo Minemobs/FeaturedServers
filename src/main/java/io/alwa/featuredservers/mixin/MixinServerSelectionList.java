@@ -24,8 +24,8 @@ public abstract class MixinServerSelectionList {
         if (serverEntry != null && !(serverEntry instanceof MultiplayerServerListWidget.LanServerEntry)) {
             this.buttonJoin.active = true;
             if (serverEntry instanceof MultiplayerServerListWidget.ServerEntry entry) {
-                if (FeaturedList.servers.containsKey((entry).getServer().address)) {
-                    boolean active = FeaturedList.servers.get((entry).getServer().address).disableButtons;
+                if (FeaturedList.containsKey((entry).getServer().address)) {
+                    boolean active = FeaturedList.get((entry).getServer().address).disableButtons;
                     this.buttonEdit.active = !active;
                     this.buttonDelete.active = !active;
                     return;

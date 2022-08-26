@@ -1,8 +1,10 @@
 package io.alwa.featuredservers;
 
+import io.alwa.featuredservers.mixin.ChatPreviewMixin;
 import io.alwa.featuredservers.mixin.ServerListAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.network.ServerInfo.ChatPreview;
 import net.minecraft.client.option.ServerList;
 import org.apache.logging.log4j.Level;
 
@@ -21,7 +23,15 @@ public class FeaturedList {
         int i = 0;
         for (FeaturedServers.ServerDataHelper serverHelp : featuredList) {
             FeaturedServerData server = new FeaturedServerData(serverHelp.getServerName(), serverHelp.getServerIP(), false, serverHelp.doesDisableButtons());
-            if(serverHelp.doesForceResourcePack() != null && serverHelp.doesForceResourcePack()) server.setResourcePackPolicy(ServerInfo.ResourcePackPolicy.ENABLED);
+            if (serverHelp.doesForceResourcePack() != null && serverHelp.doesForceResourcePack()) server.setResourcePackPolicy(ServerInfo.ResourcePackPolicy.ENABLED);
+            if (serverHelp.doesForceChatPreview() != null && serverHelp.doesForceChatPreview()) {
+                server.setPreviewsChat(true);
+                ChatPreview chatPreview = server.getChatPreview();
+                if (chatPreview != null) {
+                    chatPreview.setAcknowledged();
+                    ((ChatPreviewMixin) chatPreview).setToastShown(true);
+                }
+            }
             if (inList(server, serverList)) {
                 FeaturedServers.LOGGER.log(Level.INFO, "Featured server already in server list");
             } else {

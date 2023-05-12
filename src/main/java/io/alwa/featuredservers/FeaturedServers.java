@@ -40,20 +40,17 @@ public class FeaturedServers implements ClientModInitializer {
                             "serverName": "Featured Server",
                             "serverIP": "127.0.0.1",
                             "forceResourcePack": "true",
-                            "forceChatPreview": "true",
                             "disableButtons": "true"
                         },
                         {
                             "serverName": "Another Server!",
                             "serverIP": "192.168.1.1",
                             "forceResourcePack": "false",
-                            "forceChatPreview": "false",
                             "disableButtons": "false"
                         }
                     ]
                     """, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
         }
-
         String json = Files.readString(featuredServerList);
         new FeaturedList().doFeaturedListStuff(new Gson().fromJson(json, ServerDataHelper[].class));
     }
@@ -68,12 +65,9 @@ public class FeaturedServers implements ClientModInitializer {
 
 
     public static class ServerDataHelper {
-
-
         private String serverName;
         private String serverIP;
         private Boolean forceResourcePack;
-        private Boolean forceChatPreview;
         private Boolean disableButtons;
 
         public String getServerName() {
@@ -82,10 +76,6 @@ public class FeaturedServers implements ClientModInitializer {
 
         public String getServerIP() {
             return serverIP;
-        }
-
-        public Boolean doesForceChatPreview() {
-            return forceChatPreview;
         }
 
         public Boolean doesForceResourcePack() {

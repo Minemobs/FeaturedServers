@@ -9,8 +9,7 @@
     "ServerEntryMixin",
     "ServerListAccessor",
     "MultiplayerServerListWidgetAccessor",
-    "DrawableHelperMixin",
-    "ChatPreviewMixin"
+    "DrawableHelperMixin"
   ],
   "injectors": {
     "defaultRequire": 1

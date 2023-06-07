@@ -9,6 +9,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface MultiplayerServerListWidgetAccessor {
 
     @Accessor("SERVER_SELECTION_TEXTURE") static Identifier getServerSelectionTexture() {
-        throw new UnsupportedOperationException();
+        throw new AssertionError();
     }
 }
